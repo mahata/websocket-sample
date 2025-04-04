@@ -8,7 +8,7 @@ function App() {
 
   const { lastJsonMessage, sendJsonMessage } = useWebSocket(WS_URL, {
     onOpen: () => {
-      console.log('WebSocket connection established.')
+      console.log('WebSocket connection established.');
     },
   });
 
@@ -22,14 +22,24 @@ function App() {
     <>
       <h1>Vite + React</h1>
       <div>
-        <input type="text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Type a message" />
-        <button onClick={() => {
-          sendJsonMessage({ message: text });
-          setText('');
-        }}>Send</button>
+        <input
+          type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Type a message"
+        />
+        <button
+          type="button"
+          onClick={() => {
+            sendJsonMessage({ message: text });
+            setText('');
+          }}
+        >
+          Send
+        </button>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

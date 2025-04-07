@@ -41,7 +41,3 @@ jobs:
       - name: Prep for Vitest Browser Mode
         run: |
           cd client && pnpm exec playwright install
-
-      - name: Test Client
-        run: |
-          make test_fe

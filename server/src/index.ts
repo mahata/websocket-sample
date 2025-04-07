@@ -1,5 +1,6 @@
 import * as http from 'http';
 import { WebSocket, WebSocketServer } from 'ws';
+import { ClientToServerMessage, ServerToClientMessage } from '../../shared/types/types';
 
 const server = http.createServer();
 const wsServer = new WebSocketServer({ server });
@@ -13,13 +14,15 @@ wsServer.on("connection", (connection: WebSocket) => {
 
   connection.on("message", (message: Buffer) => {
     try {
-      const parsedMessage = JSON.parse(message.toString());
+      const parsedMessage = JSON.parse(message.toString()) as ClientToServerMessage;
       console.log("Received message:", parsedMessage);
 
-      connection.send(JSON.stringify({
+      const response: ServerToClientMessage = {
         status: "received",
-        received: parsedMessage
-      }));
+        received: parsedMessage,
+      };
+
+      connection.send(JSON.stringify(response));
     } catch (error) {
       console.error("Error parsing message:", error);
     }

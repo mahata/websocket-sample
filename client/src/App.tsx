@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import useWebSocket from 'react-use-websocket';
+import { ServerToClientMessage } from '../../shared/types/types';
+
 
 const WS_URL = 'ws://localhost:8080';
 
 function App() {
   const [text, setText] = useState('');
 
-  const { lastJsonMessage, sendJsonMessage } = useWebSocket(WS_URL, {
+  const { lastJsonMessage, sendJsonMessage } = useWebSocket<ServerToClientMessage>(WS_URL, {
     onOpen: () => {
       console.log('WebSocket connection established.');
     },
@@ -15,6 +17,9 @@ function App() {
   useEffect(() => {
     if (lastJsonMessage) {
       console.log('Received message:', lastJsonMessage);
+      if (lastJsonMessage.status === 'received') {
+        console.log(lastJsonMessage.received.message)
+      }
     }
   }, [lastJsonMessage]);
 
